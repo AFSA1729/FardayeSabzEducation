@@ -26,7 +26,7 @@ class CourseController:
     def update_students():
         for course in CourseController.__all_courses:
             course.students.clear()
-        spreadsheet = DriveController.gsheets.open_by_key(CourseController.__students_sheet_key)
+        spreadsheet = DriveController.get_gsheets().open_by_key(CourseController.__students_sheet_key)
         worksheet: pygsheets.Worksheet
         worksheet = spreadsheet.worksheets()[len(spreadsheet.worksheets()) - 1]
         df = worksheet.get_as_df(include_tailing_empty=True)
@@ -41,7 +41,7 @@ class CourseController:
 
     @staticmethod
     def update_teachers():
-        spreadsheet = DriveController.gsheets.open_by_key(CourseController.__teachers_sheet_key)
+        spreadsheet = DriveController.get_gsheets().open_by_key(CourseController.__teachers_sheet_key)
         worksheet: pygsheets.Worksheet
         worksheet = spreadsheet.worksheets()[len(spreadsheet.worksheets()) - 1]
         df = worksheet.get_as_df()
