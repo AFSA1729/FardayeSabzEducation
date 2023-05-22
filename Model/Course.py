@@ -16,7 +16,7 @@ class Course:
     def add_student(self, student_name: str):
         self.students.append(student_name)
 
-    def create_new_week_sheet(self, week_count: int, date: str):
+    def create_week_sheet(self, week_count: int, date: str):
         spreadsheet = DriveController.get_gsheets().open_by_key(self.gsheet_key)
         worksheet = spreadsheet.add_worksheet("هفته " + week_count.__str__())
         df = worksheet.get_as_df()

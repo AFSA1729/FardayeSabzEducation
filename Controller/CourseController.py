@@ -23,12 +23,12 @@ class CourseController:
         return None
 
     @staticmethod
-    def update_students():
+    def update_students(week_count):
         for course in CourseController.__all_courses:
             course.students.clear()
         spreadsheet = DriveController.get_gsheets().open_by_key(CourseController.__students_sheet_key)
         worksheet: pygsheets.Worksheet
-        worksheet = spreadsheet.worksheets()[len(spreadsheet.worksheets()) - 1]
+        worksheet = spreadsheet.worksheet_by_title("هفته " + week_count.__str__())
         df = worksheet.get_as_df(include_tailing_empty=True)
         for i in range(df['نام'].shape[0]):
             if CourseController.find_course(df['جنسیت'][i], df['پایه'][i], 'ریاضی') is not None:
@@ -40,10 +40,10 @@ class CourseController:
                 course.add_student(df['نام'][i])
 
     @staticmethod
-    def update_teachers():
+    def update_teachers(week_count):
         spreadsheet = DriveController.get_gsheets().open_by_key(CourseController.__teachers_sheet_key)
         worksheet: pygsheets.Worksheet
-        worksheet = spreadsheet.worksheets()[len(spreadsheet.worksheets()) - 1]
+        worksheet = spreadsheet.worksheet_by_title("هفته " + week_count.__str__())
         df = worksheet.get_as_df()
         for i in range(df['نام'].shape[0]):
             if CourseController.find_course(df['جنسیت'][i], df['پایه'][i], df['درس'][i]) is not None:
@@ -51,9 +51,9 @@ class CourseController:
                 course.teacher = df['نام'][i]
 
     @staticmethod
-    def create_new_week_sheets(week_count: int, date: str):
+    def create_week_sheets(week_count: int, date: str):
         for course in CourseController.__all_courses:
-            course.create_new_week_sheet(week_count, date)
+            course.create_week_sheet(week_count, date)
 
     @staticmethod
     def get_all_courses():

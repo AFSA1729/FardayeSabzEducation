@@ -24,3 +24,10 @@ class DriveController:
     @staticmethod
     def get_gsheets():
         return DriveController.__gsheets
+
+    @staticmethod
+    def open_gsheet_as_df(key: str, sheet: str):
+        spreadsheet = DriveController.get_gsheets().open_by_key(key)
+        worksheet: pygsheets.Worksheet
+        worksheet = spreadsheet.worksheet_by_title(sheet)
+        return worksheet
