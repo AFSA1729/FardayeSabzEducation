@@ -23,13 +23,11 @@ class CourseController:
         return None
 
     @staticmethod
-    def update_students(week_count):
+    def update_students(week_count: int):
         for course in CourseController.__all_courses:
             course.students.clear()
-        spreadsheet = DriveController.get_gsheets().open_by_key(CourseController.__students_sheet_key)
-        worksheet: pygsheets.Worksheet
-        worksheet = spreadsheet.worksheet_by_title("هفته " + week_count.__str__())
-        df = worksheet.get_as_df(include_tailing_empty=True)
+        df = DriveController.open_gsheet_as_df(key=CourseController.__students_sheet_key,
+                                               sheet="هفته " + week_count.__str__())
         for i in range(df['نام'].shape[0]):
             if CourseController.find_course(df['جنسیت'][i], df['پایه'][i], 'ریاضی') is not None:
                 course = CourseController.find_course(df['جنسیت'][i], df['پایه'][i], 'ریاضی')
@@ -40,11 +38,9 @@ class CourseController:
                 course.add_student(df['نام'][i])
 
     @staticmethod
-    def update_teachers(week_count):
-        spreadsheet = DriveController.get_gsheets().open_by_key(CourseController.__teachers_sheet_key)
-        worksheet: pygsheets.Worksheet
-        worksheet = spreadsheet.worksheet_by_title("هفته " + week_count.__str__())
-        df = worksheet.get_as_df()
+    def update_teachers(week_count: int):
+        df = DriveController.open_gsheet_as_df(key=CourseController.__teachers_sheet_key,
+                                               sheet="هفته " + week_count.__str__())
         for i in range(df['نام'].shape[0]):
             if CourseController.find_course(df['جنسیت'][i], df['پایه'][i], df['درس'][i]) is not None:
                 course = CourseController.find_course(df['جنسیت'][i], df['پایه'][i], df['درس'][i])
