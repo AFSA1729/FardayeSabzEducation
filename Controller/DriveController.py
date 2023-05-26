@@ -1,3 +1,4 @@
+import pydrive.files
 from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
 import pandas as pd
@@ -39,15 +40,15 @@ class DriveController:
         df = worksheet.get_as_df()
         return df, worksheet
 
-    ### Some basic helper functions ###
+    # Some basic helper functions
     @staticmethod
-    def get_children(root_folder_id):
-        str = "\'" + root_folder_id + "\'" + " in parents and trashed=false"
-        file_list = DriveController.__drive.ListFile({'q': str}).GetList()
+    def get_children(root_folder_id: str) -> list[pydrive.files.GoogleDriveFile]:
+        string = "\'" + root_folder_id + "\'" + " in parents and trashed=false"
+        file_list = DriveController.__drive.ListFile({'q': string}).GetList()
         return file_list
 
     @staticmethod
-    def get_folder_id(root_folder_id, root_folder_title):
+    def get_folder_id(root_folder_id, root_folder_title: str) -> str:
         file_list = DriveController.get_children(root_folder_id)
         for file in file_list:
             if file['title'] == root_folder_title:

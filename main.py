@@ -19,6 +19,6 @@ CourseController.add_course(Course("1lZ92HcWYfqytQ5DEs6CB4Ib-tBKQcy_nBmjqhYJ1iH0
 CourseController.update_students()
 CourseController.update_teachers()
 
-CourseController.create_week_sheets(14, "5-18-2023")
+# CourseController.create_week_sheets(14, "5-18-2023")
 
 print("adgal;sdkgjl;ksjk")
