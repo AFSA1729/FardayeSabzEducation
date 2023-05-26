@@ -40,54 +40,9 @@ from pygsheets import Spreadsheet
 
 # CourseController.create_week_sheets(14, "5-18-2023")
 
+# --------------------------------------------------------------------------------------------------------
 
 
+CourseController.init_courses()
 
-
-
-
-
-
-########################################################################3
-
-
-
-# CourseController.init_courses()
-
-# string = "\'" + "1sXJvKUNpmkppBm6PvVX5RDyIRrZNPeG2" + "\'" + " in parents and trashed=false"
-# file_list = DriveController.get_drive().ListFile({'q': string}).GetList()
-
-# file_list = DriveController.get_drive().ListFile(
-#     {'q': "'{}' in parents and trashed=false".format('1sXJvKUNpmkppBm6PvVX5RDyIRrZNPeG2')}).GetList()
-# for file in file_list:
-#     print('title: %s, id: %s' % (file['title'], file['id']))
-
-# gauth = GoogleAuth(".\Controller\client_secret.json")
-# drive = GoogleDrive(gauth)
-
-# drive = GoogleDrive(GoogleAuth())
-
-# upload_file_list = ['1.png', '2.png']
-# for upload_file in upload_file_list:
-#     gfile = drive.CreateFile({'parents': [{'id': '11vySW2JgIzzXHGUEV5YhvltlecXUMkDX'}]})
-#     # Read file and set it as the content of this instance.
-#     gfile.SetContentFile(upload_file)
-#     gfile.Upload()  # Upload the file.
-
-# file_list: list[pydrive.files.GoogleDriveFile]
-# file_list = drive.ListFile(
-#     {'q': "'{}' in parents and trashed=false".format('1sXJvKUNpmkppBm6PvVX5RDyIRrZNPeG2')}).GetList()
-# for file in file_list:
-#     print('title: %s, id: %s' % (file['title'], file['id']))
-# print(file_list[0].keys())
-
-
-drive_controller = DriveController()
-#
-upload_file_list = ['1.png', '2.png']
-for upload_file in upload_file_list:
-    gfile = DriveController.get_drive().CreateFile({'parents': [{'id': '11vySW2JgIzzXHGUEV5YhvltlecXUMkDX'}]})
-    # Read file and set it as the content of this instance.
-    gfile.SetContentFile(upload_file)
-    gfile.Upload()  # Upload the file.
 print("adgal;sdkgjl;ksjk")

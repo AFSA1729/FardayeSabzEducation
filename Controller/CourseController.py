@@ -18,12 +18,12 @@ class CourseController:
 
     @staticmethod
     def init_courses():
-        string = "\'" + "1sXJvKUNpmkppBm6PvVX5RDyIRrZNPeG2" + "\'" + " in parents and trashed=false"
-        file_list = DriveController.get_drive().ListFile({'q': string}).GetList()
-        # gsheets = DriveController.get_children(CourseController.__classes_folder_id)
-        # for gsheet in gsheets:
-        # title = gsheet['title'].split('-')
-        # print(gsheet)
+        gsheets = DriveController.get_children(CourseController.__classes_folder_id)
+        for gsheet in gsheets:
+            title = gsheet['title'].split('-')
+            title[2] = int(title[2])
+            title[0] = int(title[0][len(title[0]) - 1])
+            print(title)
         pass
 
     @staticmethod
