@@ -46,11 +46,11 @@ class Course:
         return self.__grade
 
     @property
-    def name(self) -> str:
+    def topic(self) -> str:
         return self.__topic
 
-    @name.setter
-    def name(self, value: str):
+    @topic.setter
+    def topic(self, value: str):
         self.__topic = value
 
     def add_student(self, student_number: int, student_name: str):
