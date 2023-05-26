@@ -38,3 +38,17 @@ class DriveController:
         worksheet = spreadsheet.worksheet_by_title(sheet)
         df = worksheet.get_as_df()
         return df, worksheet
+
+    ### Some basic helper functions ###
+    @staticmethod
+    def get_children(root_folder_id):
+        str = "\'" + root_folder_id + "\'" + " in parents and trashed=false"
+        file_list = DriveController.__drive.ListFile({'q': str}).GetList()
+        return file_list
+
+    @staticmethod
+    def get_folder_id(root_folder_id, root_folder_title):
+        file_list = DriveController.get_children(root_folder_id)
+        for file in file_list:
+            if file['title'] == root_folder_title:
+                return file['id']
