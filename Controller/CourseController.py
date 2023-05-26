@@ -17,14 +17,16 @@ class CourseController:
     __classes_folder_id = "1sXJvKUNpmkppBm6PvVX5RDyIRrZNPeG2"
 
     @staticmethod
-    def init_courses():
+    def init_courses(week_count: int):
         gsheets = DriveController.get_children(CourseController.__classes_folder_id)
         for gsheet in gsheets:
             title = gsheet['title'].split('-')
             title[2] = int(title[2])
             title[0] = int(title[0][len(title[0]) - 1])
-            print(title)
-        pass
+            CourseController.add_course(Course(gsheet['id'], title[1], title[0], title[1]))
+
+        CourseController.update_students(week_count)
+        CourseController.update_teachers(week_count)
 
     @staticmethod
     def add_course(course: Course):
