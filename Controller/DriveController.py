@@ -7,12 +7,12 @@ from pygsheets import Spreadsheet
 
 
 class DriveController:
-    __credentials_path = "credentials.json"
-    __client_secret_path = ".\Controller\client_secret.json"
-    __settings_path = "settings.yaml"
-    gauth = GoogleAuth(__client_secret_path)
+    __client_secret_path = ".\Resources\client_secret.json"
+    __settings_path = ".\Resources\settings.yaml"
+    gauth = GoogleAuth(__settings_path)
     __drive = GoogleDrive(gauth)
-    __gsheets = pygsheets.authorize(__client_secret_path)
+    __gsheets = pygsheets.authorize(credentials_directory="./Resources/",
+                                    client_secret=__client_secret_path)
 
     @staticmethod
     def open_gsheet_as_df(key: str, sheet: str) -> (pd.DataFrame, pygsheets.Worksheet):
