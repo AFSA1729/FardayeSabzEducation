@@ -12,9 +12,16 @@ class CourseController:
     __all_courses = []
     __teachers_sheet_key = "1pesjG4J8GyqUZC-PXK7dNGiugnPLWSzo9kL5YEiB2Cc"
     __students_sheet_key = "1fQaRzEVVOX4RTszCSXIhDP88NvUJrYEEayVVYeWwUhw"
+    __classes_folder_id = "1sXJvKUNpmkppBm6PvVX5RDyIRrZNPeG2"
 
-    # @staticmethod
-    # def init_courses():
+    @staticmethod
+    def init_courses():
+        gsheets = DriveController.get_children(CourseController.__classes_folder_id)
+        for gsheet in gsheets:
+            title = gsheet['title'].split('-')
+            print(title)
+
+    pass
 
     @staticmethod
     def add_course(course: Course):
@@ -56,7 +63,7 @@ class CourseController:
         df: pd.DataFrame = DriveController.open_gsheet_as_df(key=CourseController.__teachers_sheet_key,
                                                              sheet="هفته " + week_count.__str__())
         if "نام" not in df.columns:
-            raise ValueError("The excel file named \"مدرسین\" not filled")
+            raise ValueError("The gsheet file named \"مدرسین\" not filled.")
 
         for i in range(df['نام'].shape[0]):
             if CourseController.find_course(df['جنسیت'][i], df['پایه'][i], df['زنگ'][i]) is not None:
