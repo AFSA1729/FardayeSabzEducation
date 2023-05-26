@@ -41,6 +41,12 @@ class Course:
     def sex(self):
         return self.__sex
 
+    def number(self):
+        return self.__number
+
+    def grade(self):
+        return self.__grade
+
     @property
     def name(self) -> str:
         return self.__name
