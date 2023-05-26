@@ -18,26 +18,35 @@ class CourseController:
         CourseController.__all_courses.append(course)
 
     @staticmethod
-    def find_course(sex: str, grade: int, name: str):
+    def find_course(sex: str, grade: int, number: int):
         for course in CourseController.__all_courses:
-            if course.sex == sex and course.grade == grade and course.number == name:
+            if course.sex == sex and course.grade == grade and course.number == number:
                 return course
         return None
 
     @staticmethod
     def update_students(week_count: int):
         for course in CourseController.__all_courses:
-            course.students.clear()
+            course.clear_students()
         df = DriveController.open_gsheet_as_df(key=CourseController.__students_sheet_key,
                                                sheet="هفته " + week_count.__str__())
-        for i in range(df['نام'].shape[0]):
-            if CourseController.find_course(df['جنسیت'][i], df['پایه'][i], 'ریاضی') is not None:
-                course = CourseController.find_course(df['جنسیت'][i], df['پایه'][i], 'ریاضی')
-                course.add_student(df['نام'][i])
+        for i in range(df['شماره دانش‌آموزی'].shape[0]):
+            name = df['نام'][i]
+            sex = df['جنسیت'][i]
+            grade = df['پایه'][i]
+            student_number = df['شماره دانش‌آموزی'][i]
 
-            if CourseController.find_course(df['جنسیت'][i], df['پایه'][i], 'زبان') is not None:
-                course = CourseController.find_course(df['جنسیت'][i], df['پایه'][i], 'زبان')
-                course.add_student(df['نام'][i])
+            if CourseController.find_course(sex, grade, 1) is not None:
+                course = CourseController.find_course(sex, grade, 1)
+                course.add_student(student_number, name)
+            else:
+                raise ValueError("Course with this details not found: sex=%s grade=%s number=1" % (sex, grade))
+
+            if CourseController.find_course(sex, grade, 2) is not None:
+                course = CourseController.find_course(sex, grade, 2)
+                course.add_student(student_number, name)
+            else:
+                raise ValueError("Course with this details not found: sex=%s grade=%s number=2" % (sex, grade))
 
     @staticmethod
     def update_teachers(week_count: int):
