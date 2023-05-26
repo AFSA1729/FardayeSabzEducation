@@ -4,6 +4,7 @@ from Controller.DriveController import DriveController
 from Model.Course import Course
 import pandas as pd
 
+# TODO add classes from کلاس ها folder in drive automatically
 
 class CourseController:
     __all_courses: list[Course]
