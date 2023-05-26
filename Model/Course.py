@@ -3,12 +3,12 @@ import pandas as pd
 
 
 class Course:
-    def __init__(self, gsheet_id: str, sex: str, grade: int, number: int, name="NA"):
+    def __init__(self, gsheet_id: str, sex: str, grade: int, number: int, topic="NA"):
         self.__gsheet_id = gsheet_id
         self.__sex = sex
         self.__grade = grade
         self.__number = number
-        self.__name = name
+        self.__topic = topic
         # self.students: list[str]
         self.__students: dict[int, str]
         self.__students = {}
@@ -33,7 +33,7 @@ class Course:
         df['توضیحات'] = nan
         df['حضور غیاب'][df['نام'] == 'مدرس'] = self.__teacher
         df['حضور غیاب'][df['نام'] == 'تاریخ'] = date
-        df['حضور غیاب'][df['نام'] == 'عنوان کلاس'] = self.__name
+        df['حضور غیاب'][df['نام'] == 'عنوان کلاس'] = self.__topic
         worksheet.set_dataframe(df, (1, 1))
 
     def sex(self):
@@ -47,11 +47,11 @@ class Course:
 
     @property
     def name(self) -> str:
-        return self.__name
+        return self.__topic
 
     @name.setter
     def name(self, value: str):
-        self.__name = value
+        self.__topic = value
 
     def add_student(self, student_number: int, student_name: str):
         self.__students[student_number] = student_name

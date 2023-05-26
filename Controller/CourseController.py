@@ -31,20 +31,20 @@ class CourseController:
         df = DriveController.open_gsheet_as_df(key=CourseController.__students_sheet_key,
                                                sheet="هفته " + week_count.__str__())
         for i in range(df['شماره دانش‌آموزی'].shape[0]):
-            name = df['نام'][i]
             sex = df['جنسیت'][i]
             grade = df['پایه'][i]
+            student_name = df['نام'][i]
             student_number = df['شماره دانش‌آموزی'][i]
 
             if CourseController.find_course(sex, grade, 1) is not None:
                 course = CourseController.find_course(sex, grade, 1)
-                course.add_student(student_number, name)
+                course.add_student(student_number, student_name)
             else:
                 raise ValueError("Course with this details not found: sex=%s grade=%s number=1" % (sex, grade))
 
             if CourseController.find_course(sex, grade, 2) is not None:
                 course = CourseController.find_course(sex, grade, 2)
-                course.add_student(student_number, name)
+                course.add_student(student_number, student_name)
             else:
                 raise ValueError("Course with this details not found: sex=%s grade=%s number=2" % (sex, grade))
 
