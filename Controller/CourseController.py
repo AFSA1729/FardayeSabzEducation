@@ -18,7 +18,7 @@ class CourseController:
     @staticmethod
     def find_course(sex: str, grade: int, name: str):
         for course in CourseController.__all_courses:
-            if course.sex == sex and course.grade == grade and course.name == name:
+            if course.sex == sex and course.grade == grade and course.number == name:
                 return course
         return None
 

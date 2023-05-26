@@ -26,9 +26,15 @@ class DriveController:
         return DriveController.__gsheets
 
     @staticmethod
-    def open_gsheet_as_df(key: str, sheet: str) -> pd.DataFrame:
+    def open_gsheet_as_df(key: str, sheet: str) -> (pd.DataFrame, pygsheets.Worksheet):
+        """
+        opens a Google sheet as pd.DataFrame
+        :param key: key of gsheet
+        :param sheet: name of the sheet
+        :return: dataframe of that sheet
+        """
         spreadsheet = DriveController.get_gsheets().open_by_key(key)
         worksheet: pygsheets.Worksheet
         worksheet = spreadsheet.worksheet_by_title(sheet)
         df = worksheet.get_as_df()
-        return df
+        return df, worksheet
