@@ -53,8 +53,11 @@ class CourseController:
 
     @staticmethod
     def update_teachers(week_count: int):
-        df = DriveController.open_gsheet_as_df(key=CourseController.__teachers_sheet_key,
-                                               sheet="هفته " + week_count.__str__())
+        df: pd.DataFrame = DriveController.open_gsheet_as_df(key=CourseController.__teachers_sheet_key,
+                                                             sheet="هفته " + week_count.__str__())
+        if "نام" not in df.columns:
+            raise ValueError("The excel file named \"مدرسین\" not filled")
+
         for i in range(df['نام'].shape[0]):
             if CourseController.find_course(df['جنسیت'][i], df['پایه'][i], df['زنگ'][i]) is not None:
                 course = CourseController.find_course(df['جنسیت'][i], df['پایه'][i], df['زنگ'][i])
