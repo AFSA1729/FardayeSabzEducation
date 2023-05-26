@@ -1,3 +1,5 @@
+import warnings
+
 import pygsheets
 
 from Controller.DriveController import DriveController
@@ -16,12 +18,13 @@ class CourseController:
 
     @staticmethod
     def init_courses():
-        gsheets = DriveController.get_children(CourseController.__classes_folder_id)
-        for gsheet in gsheets:
-            title = gsheet['title'].split('-')
-            print(title)
-
-    pass
+        string = "\'" + "1sXJvKUNpmkppBm6PvVX5RDyIRrZNPeG2" + "\'" + " in parents and trashed=false"
+        file_list = DriveController.get_drive().ListFile({'q': string}).GetList()
+        # gsheets = DriveController.get_children(CourseController.__classes_folder_id)
+        # for gsheet in gsheets:
+        # title = gsheet['title'].split('-')
+        # print(gsheet)
+        pass
 
     @staticmethod
     def add_course(course: Course):
@@ -38,8 +41,8 @@ class CourseController:
     def update_students(week_count: int):
         for course in CourseController.__all_courses:
             course.clear_students()
-        df = DriveController.open_gsheet_as_df(key=CourseController.__students_sheet_key,
-                                               sheet="هفته " + week_count.__str__())
+        df, worksheet = DriveController.open_gsheet_as_df(key=CourseController.__students_sheet_key,
+                                                          sheet="هفته " + week_count.__str__())
         for i in range(df['شماره دانش‌آموزی'].shape[0]):
             sex = df['جنسیت'][i]
             grade = df['پایه'][i]
@@ -50,22 +53,23 @@ class CourseController:
                 course = CourseController.find_course(sex, grade, 1)
                 course.add_student(student_number, student_name)
             else:
-                raise ValueError("Course with this details not found: sex=%s grade=%s number=1" % (sex, grade))
+                warnings.warn("Course with this details not found: sex=%s grade=%s number=1" % (sex, grade))
 
             if CourseController.find_course(sex, grade, 2) is not None:
                 course = CourseController.find_course(sex, grade, 2)
                 course.add_student(student_number, student_name)
             else:
-                raise ValueError("Course with this details not found: sex=%s grade=%s number=2" % (sex, grade))
+                warnings.warn("Course with this details not found: sex=%s grade=%s number=1" % (sex, grade))
 
     @staticmethod
     def update_teachers(week_count: int):
-        df: pd.DataFrame = DriveController.open_gsheet_as_df(key=CourseController.__teachers_sheet_key,
-                                                             sheet="هفته " + week_count.__str__())
+        df, worksheet = DriveController.open_gsheet_as_df(key=CourseController.__teachers_sheet_key,
+                                                          sheet="هفته " + week_count.__str__())
         if "نام" not in df.columns:
             raise ValueError("The gsheet file named \"مدرسین\" not filled.")
-
         for i in range(df['نام'].shape[0]):
+            if df['نام'][i] == "":
+                continue
             if CourseController.find_course(df['جنسیت'][i], df['پایه'][i], df['زنگ'][i]) is not None:
                 course = CourseController.find_course(df['جنسیت'][i], df['پایه'][i], df['زنگ'][i])
                 course.teacher = df['نام'][i]

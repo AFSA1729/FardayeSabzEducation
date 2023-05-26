@@ -37,12 +37,15 @@ class Course:
         df['حضور غیاب'][df['نام'] == 'عنوان کلاس'] = self.__topic
         worksheet.set_dataframe(df, (1, 1))
 
+    @property
     def sex(self):
         return self.__sex
 
+    @property
     def number(self):
         return self.__number
 
+    @property
     def grade(self):
         return self.__grade
 
