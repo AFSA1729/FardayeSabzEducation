@@ -21,9 +21,10 @@ class CourseController:
         gsheets = DriveController.get_children(CourseController.__classes_folder_id)
         for gsheet in gsheets:
             title = gsheet['title'].split('-')
-            title[2] = int(title[2])
-            title[0] = int(title[0][len(title[0]) - 1])
-            CourseController.add_course(Course(gsheet['id'], title[1], title[0], title[1]))
+            sex = title[1]
+            grade = int(title[2])
+            number = int(title[0][len(title[0]) - 1])
+            CourseController.add_course(Course(gsheet['id'], sex, grade, number))
 
         CourseController.update_students(week_count)
         CourseController.update_teachers(week_count)

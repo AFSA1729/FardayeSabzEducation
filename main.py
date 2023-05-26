@@ -43,6 +43,10 @@ from pygsheets import Spreadsheet
 # --------------------------------------------------------------------------------------------------------
 
 
-CourseController.init_courses()
+CourseController.init_courses(15)
+
+for course in CourseController.get_all_courses():
+    print(course.students())
+    print(f"--> sex:{course.sex} grade:{course.grade} number:{course.number}")
 
 print("adgal;sdkgjl;ksjk")
