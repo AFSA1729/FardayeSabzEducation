@@ -13,6 +13,9 @@ class CourseController:
     __teachers_sheet_key = "1pesjG4J8GyqUZC-PXK7dNGiugnPLWSzo9kL5YEiB2Cc"
     __students_sheet_key = "1fQaRzEVVOX4RTszCSXIhDP88NvUJrYEEayVVYeWwUhw"
 
+    # @staticmethod
+    # def init_courses():
+
     @staticmethod
     def add_course(course: Course):
         CourseController.__all_courses.append(course)
@@ -53,9 +56,13 @@ class CourseController:
         df = DriveController.open_gsheet_as_df(key=CourseController.__teachers_sheet_key,
                                                sheet="هفته " + week_count.__str__())
         for i in range(df['نام'].shape[0]):
-            if CourseController.find_course(df['جنسیت'][i], df['پایه'][i], df['درس'][i]) is not None:
-                course = CourseController.find_course(df['جنسیت'][i], df['پایه'][i], df['درس'][i])
+            if CourseController.find_course(df['جنسیت'][i], df['پایه'][i], df['زنگ'][i]) is not None:
+                course = CourseController.find_course(df['جنسیت'][i], df['پایه'][i], df['زنگ'][i])
                 course.teacher = df['نام'][i]
+                course.topic = df['درس'][i]
+            else:
+                raise ValueError("Course with this details not found: sex=%s grade=%s number=%s" % (
+                    df['جنسیت'][i], df['پایه'][i], df['زنگ'][i]))
 
     @staticmethod
     def create_week_sheets(week_count: int, date: str):

@@ -3,12 +3,12 @@ import pandas as pd
 
 
 class Course:
-    def __init__(self, gsheet_id: str, sex: str, grade: int, number: int, topic="NA"):
-        self.__gsheet_id = gsheet_id
+    def __init__(self, gsheet_id: str, sex: str, grade: int, number: int, topic=None):
+        self.__gsheet_key = gsheet_id
         self.__sex = sex
         self.__grade = grade
         self.__number = number
-        self.__topic = topic
+        self.__topic: str = topic
         # self.students: list[str]
         self.__students: dict[int, str]
         self.__students = {}
@@ -22,7 +22,7 @@ class Course:
     # TODO add column
 
     def create_week_sheet(self, week_count: int, date: str):
-        df, worksheet = DriveController.open_gsheet_as_df(self.__gsheet_id, "هفته " + week_count.__str__())
+        df, worksheet = DriveController.open_gsheet_as_df(self.__gsheet_key, "هفته " + week_count.__str__())
         df['نام'] = list(self.__students.values()) + ['مدرس', 'تاریخ', 'مبحث', 'عنوان کلاس']
         df['شماره دانش‌آموزی'] = list(self.__students.keys())
         nan = [''] * df['نام'].shape[0]
