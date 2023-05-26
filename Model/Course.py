@@ -20,8 +20,6 @@ class Course:
     # TODO Telegram Bot
     # TODO remove excels
     # TODO add column
-    def add_student(self, student_number: int, student_name: str):
-        self.__students[student_number] = student_name
 
     def create_week_sheet(self, week_count: int, date: str):
         df, worksheet = DriveController.open_gsheet_as_df(self.__gsheet_id, "هفته " + week_count.__str__())
@@ -54,3 +52,12 @@ class Course:
     @name.setter
     def name(self, value: str):
         self.__name = value
+
+    def add_student(self, student_number: int, student_name: str):
+        self.__students[student_number] = student_name
+
+    def clear_students(self):
+        self.__students.clear()
+
+    def students(self) -> dict[int, str]:
+        return self.__students.copy()
