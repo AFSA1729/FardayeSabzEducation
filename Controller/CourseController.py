@@ -28,28 +28,22 @@ class CourseController:
 
         CourseController.update_students(week_count)
         CourseController.update_teachers(week_count)
-    @staticmethod
-    def testd():
-        with open('.\Resources\unfilled_teachers_list.txt', 'w') as f:
-            f.write("ashkan hastam.")
+
     @staticmethod
     def get_unfilled_teachers_list(week_count: int):
         unfilled_teachers_list: str = ""
         sheet_name = "هفته " + week_count.__str__()
         for course in CourseController.__all_courses:
-            file = DriveController.get_drive().CreateFile({'id': course.gsheet_key})
-            print(f"file title={file['title']}")
-            print(DriveController.get_sheet_names(file['id']))
-            print("----------------------------")
-            if sheet_name in DriveController.get_sheet_names(file['id']):
-                df, worksheet = DriveController.open_gsheet_as_df(file['id'], sheet_name)
+            if sheet_name in DriveController.get_sheet_names(course.gsheet_key):
+                df, worksheet = DriveController.open_gsheet_as_df(course.gsheet_key, sheet_name)
                 if sum(df['حضور غیاب'] == '') > 4:
-                    unfilled_teachers_list = unfilled_teachers_list + f"Name:{course.teacher},Telegram ID:{course.teacher_telegram_id}"
+                    unfilled_teachers_list = unfilled_teachers_list + f"Name:{course.teacher},Telegram ID:{course.teacher_telegram_id}\n"
             else:
-                warnings.warn(f"gsheet:{file['title']} doesn't contain sheet:{sheet_name}.\n")
+                warnings.warn(f"gsheet:{course.number}-{course.sex}-{course.grade} doesn't contain sheet:{sheet_name}.")
 
-        # with open('.\Resources\\unfilled_teachers_list.txt', 'w') as f:
-        #     f.write(unfilled_teachers_list)
+        with open('./Resources/unfilled_teachers_list.txt', 'w+', encoding="utf-8") as f:
+            f.write(unfilled_teachers_list)
+
         return unfilled_teachers_list
 
     @staticmethod
