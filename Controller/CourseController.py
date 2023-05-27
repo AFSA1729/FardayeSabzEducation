@@ -91,7 +91,7 @@ class CourseController:
     @staticmethod
     def update_students_docs(week_count: int):
         for course in CourseController.__all_courses:
-            print('--:starting from a gsheet')
+            print(f"--:course{course.number}-{course.sex}-{course.grade}:--")
             course.update_students_docs(week_count)
 
     @staticmethod

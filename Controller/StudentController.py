@@ -11,6 +11,7 @@ class StudentController:
         print("==============================")
         folder_id: str | None = DriveController.get_student_folder_id(student_id)
         if folder_id:
+            print(f"{student_id} folder founded.")
             gsheet_key: str | None = DriveController.get_student_gsheet_id(folder_id, student_id)
             if gsheet_key:
                 df, worksheet = DriveController.open_gsheet_as_df(gsheet_key)
