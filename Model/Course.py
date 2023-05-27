@@ -50,7 +50,8 @@ class Course:
 
     def create_week_sheet(self, week_count: int, date: str):
         sheet_name = "هفته " + week_count.__str__()
-        DriveController.add_sheet(self.__gsheet_key, sheet_name)
+        if sheet_name not in DriveController.get_sheet_names(self.__gsheet_key):
+            DriveController.add_sheet(self.__gsheet_key, sheet_name)
         df, worksheet = DriveController.open_gsheet_as_df(self.__gsheet_key, sheet_name)
         df['نام'] = list(self.__students.values()) + ['مدرس', 'تاریخ', 'مبحث', 'عنوان کلاس']
         df['شماره دانش‌آموزی'] = list(self.__students.keys()) + [""] * (len(df.index) - len(self.__students.keys()))
@@ -60,9 +61,9 @@ class Course:
         df['انجام تکالیف'] = nan
         df['ارزیابی مدرس'] = nan
         df['توضیحات'] = nan
-        df[df['نام'] == 'مدرس']['شماره دانش‌آموزی'] = self.__teacher
-        df[df['نام'] == 'تاریخ']['شماره دانش‌آموزی'] = date
-        df[df['نام'] == 'عنوان کلاس']['شماره دانش‌آموزی'] = self.__topic
+        df.loc[df['نام'] == 'مدرس', 'شماره دانش‌آموزی'] = self.__teacher
+        df.loc[df['نام'] == 'تاریخ', 'شماره دانش‌آموزی'] = date
+        df.loc[df['نام'] == 'عنوان کلاس', 'شماره دانش‌آموزی'] = self.__topic
         worksheet.set_dataframe(df, (1, 1))
 
     def add_std_id(self, week_count: int, date: str):
