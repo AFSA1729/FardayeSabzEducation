@@ -28,7 +28,6 @@ class Course:
         mabhas = df['شماره دانش‌آموزی'][df['نام'] == 'مبحث']
         new_index = df.columns.tolist()
         new_index = ['مدرس', 'تاریخ', 'مبحث', 'عنوان کلاس'] + new_index[2:]
-        print(new_index)
 
         for i in range(students_num):
             print(df['نام'][i])
@@ -39,8 +38,6 @@ class Course:
             s['مبحث'] = mabhas
             s['عنوان کلاس'] = self.__topic
             s.reindex(index=new_index)
-
-            # print(s)
 
     def create_week_sheet(self, week_count: int, date: str):
         df, worksheet = DriveController.open_gsheet_as_df(self.__gsheet_key, "هفته " + week_count.__str__())

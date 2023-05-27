@@ -45,6 +45,17 @@ class DriveController:
                 return file['id']
 
     @staticmethod
+    def create_folder(self, name: str, parent_id: str):
+        file_metadata = {
+            'title': name,
+            'parents': [{'id': parent_id}],  # parent folder
+            'mimeType': 'application/vnd.google-apps.folder'
+        }
+
+        folder = self.drive.CreateFile(file_metadata)
+        folder.Upload()
+
+    @staticmethod
     def get_sheet_names(key: str):
         spreadsheet = DriveController.get_gsheets().open_by_key(key)
         return [s.title for s in spreadsheet.worksheets()]
