@@ -11,6 +11,7 @@ CourseController.init_courses(week_count)
 
 
 CourseController.update_students_docs(week_count)
+print("docs.done")
 print(CourseController.get_unfilled_teachers_list(week_count))
 
 print("adgal;sdkgjl;ksjk")
