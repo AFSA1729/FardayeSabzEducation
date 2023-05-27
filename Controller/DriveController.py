@@ -53,7 +53,7 @@ class DriveController:
     def get_student_folder_id(student_id: str) -> str | None:
         folder_list = DriveController.get_children(DriveController.__student_documents_folder_id)
         for folder in folder_list:
-            if folder['title'].split("-")[0] == student_id:
+            if folder['title'].split("-")[0] == student_id or folder['title'].split("-")[1] == student_id:
                 return folder['id']
         return None
 
@@ -61,7 +61,7 @@ class DriveController:
     def get_student_gsheet_id(folder_id: str, student_id: str) -> str | None:
         file_list = DriveController.get_children(folder_id)
         for file in file_list:
-            if file['title'].split('_')[0] == student_id:
+            if file['title'].split('-')[0] == student_id or file['title'].split('-')[1] == student_id:
                 return file['id']
         return None
 
