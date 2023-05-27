@@ -31,19 +31,22 @@ class CourseController:
 
     @staticmethod
     def get_unfilled_teachers_list(week_count: int):
-        file_list = DriveController.get_children(CourseController.__classes_folder_id)
+        unfilled_tichers_list: str = ""
         sheet_name = "هفته " + week_count.__str__()
         flag = True
-        for file in file_list:
+        for course in CourseController.__all_courses:
+            file = DriveController.get_drive().CreateFile({'id': course.gsheet_key})
             print(f"file title={file['title']}")
             print(DriveController.get_sheet_names(file['id']))
             print("----------------------------")
             if sheet_name in DriveController.get_sheet_names(file['id']):
                 df, worksheet = DriveController.open_gsheet_as_df(file['id'], sheet_name)
                 if sum(df['حضور غیاب'] == '') > 4:
-
+                    unfilled_teachers_list = unfilled_tichers_list + f"Name:{course.teacher},Telegram ID:{course.teacher_telegram_id}"
             else:
                 warnings.warn(f"gsheet:{file['title']} doesn't contain sheet:{sheet_name}.")
+
+
 
     @staticmethod
     def update_students(week_count: int):
@@ -81,7 +84,7 @@ class CourseController:
             if CourseController.find_course(df['جنسیت'][i], df['پایه'][i], df['زنگ'][i]) is not None:
                 course = CourseController.find_course(df['جنسیت'][i], df['پایه'][i], df['زنگ'][i])
                 course.teacher = df['نام'][i]
-                course.teacher_telegram_id = df.loc[i,"telegram ID"]
+                course.teacher_telegram_id = df.loc[i, "telegram ID"]
                 course.topic = df['درس'][i]
             else:
                 raise ValueError("Course with this details not found: sex=%s grade=%s number=%s" % (

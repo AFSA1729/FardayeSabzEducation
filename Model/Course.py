@@ -80,6 +80,10 @@ class Course:
         worksheet.set_dataframe(df, (1, 1))
 
     @property
+    def gsheet_key(self):
+        return self.__gsheet_key
+
+    @property
     def sex(self):
         return self.__sex
 
