@@ -46,7 +46,8 @@ class CourseController:
             else:
                 warnings.warn(f"gsheet:{file['title']} doesn't contain sheet:{sheet_name}.")
 
-
+        with open('unfilled_teachers_list.txt', 'w') as f:
+            f.write(unfilled_teachers_list)
 
     @staticmethod
     def update_students(week_count: int):
