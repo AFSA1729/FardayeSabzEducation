@@ -45,27 +45,27 @@ class DriveController:
                 return file['id']
 
     @staticmethod
-    def create_folder(title: str, parent_id: str):
+    def create_folder(title: str, parent_id: str) -> pydrive.files.GoogleDriveFile:
         file_metadata = {
             'title': title,
             'parents': [{'id': parent_id}],  # parent folder
             'mimeType': 'application/vnd.google-apps.folder'
         }
-
         folder = DriveController.__drive.CreateFile(file_metadata)
         folder.Upload()
+        return folder
 
     @staticmethod
-    def create_gsheet(title:str, parent_id: str):
+    def create_gsheet(title: str, parent_id: str):
         file_metadata = {
             'title': title,
             'parents': [{'id': parent_id}],  # parent folder
             'mimeType': 'application/vnd.google-apps.spreadsheet'
         }
+        gsheet = DriveController.__drive.CreateFile(file_metadata)
+        gsheet.Upload()
+        return gsheet
 
-        folder = DriveController.__drive.CreateFile(file_metadata)
-        folder.Upload()
-        pass
     @staticmethod
     def get_sheet_names(key: str):
         spreadsheet = DriveController.get_gsheets().open_by_key(key)
