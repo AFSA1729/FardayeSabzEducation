@@ -9,10 +9,7 @@ CourseController.init_courses(14)
 #     print(f"--> sex:{course.sex} grade:{course.grade} number:{course.number}")
 
 
-course = CourseController.find_course("پسر", 7, 2)
-# print(course.students())
-# print(f"--> sex:{course.sex} grade:{course.grade} number:{course.number}")
-course.update_course_students_docs(14)
+CourseController.update_students_docs(14)
 
 
 print("adgal;sdkgjl;ksjk")
