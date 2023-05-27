@@ -15,7 +15,7 @@ class Course:
         self.__students = {}
         self.__teacher = ""
 
-    # TODO add setter getters
+
     # TODO class excel not filled
     # TODO Telegram Bot
     # TODO remove excels
