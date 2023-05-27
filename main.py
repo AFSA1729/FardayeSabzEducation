@@ -10,10 +10,10 @@ CourseController.init_courses(week_count)
 #     print(course.students())
 #     print(f"--> sex:{course.sex} grade:{course.grade} number:{course.number}")
 
-course = CourseController.find_course("پسر", 7, 1)
-course.create_week_sheet(week_count, "1401-03-04")
+# course = CourseController.find_course("پسر", 7, 1)
+# course.create_week_sheet(week_count, "1401-03-04")
 
-# CourseController.create_week_sheets(week_count, "1401-03-04")
+CourseController.create_week_sheets(week_count, "1401-03-04")
 # CourseController.update_students_docs(week_count)
 # print("docs.done")
 # print(CourseController.get_unfilled_teachers_list(week_count))
