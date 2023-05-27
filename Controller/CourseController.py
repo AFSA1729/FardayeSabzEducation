@@ -31,9 +31,8 @@ class CourseController:
 
     @staticmethod
     def get_unfilled_teachers_list(week_count: int):
-        unfilled_tichers_list: str = ""
+        unfilled_teachers_list: str = ""
         sheet_name = "هفته " + week_count.__str__()
-        flag = True
         for course in CourseController.__all_courses:
             file = DriveController.get_drive().CreateFile({'id': course.gsheet_key})
             print(f"file title={file['title']}")
@@ -42,12 +41,13 @@ class CourseController:
             if sheet_name in DriveController.get_sheet_names(file['id']):
                 df, worksheet = DriveController.open_gsheet_as_df(file['id'], sheet_name)
                 if sum(df['حضور غیاب'] == '') > 4:
-                    unfilled_teachers_list = unfilled_tichers_list + f"Name:{course.teacher},Telegram ID:{course.teacher_telegram_id}"
+                    unfilled_teachers_list = unfilled_teachers_list + f"Name:{course.teacher},Telegram ID:{course.teacher_telegram_id}"
             else:
                 warnings.warn(f"gsheet:{file['title']} doesn't contain sheet:{sheet_name}.")
 
-        with open('unfilled_teachers_list.txt', 'w') as f:
+        with open('.\Resources\\unfilled_teachers_list.txt', 'w') as f:
             f.write(unfilled_teachers_list)
+        return unfilled_teachers_list
 
     @staticmethod
     def update_students(week_count: int):
