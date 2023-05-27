@@ -59,6 +59,14 @@ class DriveController:
         return None
 
     @staticmethod
+    def get_student_gsheet_id(folder_id: str, student_id: str) -> str | None:
+        file_list = DriveController.get_children(folder_id)
+        for file in file_list:
+            if file['title'].split('_')[0] == student_id:
+                return file['id']
+        return None
+
+    @staticmethod
     def create_folder(title: str, parent_id: str) -> pydrive.files.GoogleDriveFile:
         file_metadata = {
             'title': title,

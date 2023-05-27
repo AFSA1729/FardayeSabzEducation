@@ -7,6 +7,8 @@ class StudentController:
 
     @staticmethod
     def update_student_doc_folder(student_name: str, student_id: str, s: pd.Series):
+        if DriveController.get_student_folder_id(student_id):
+
         pass
 
     @staticmethod
