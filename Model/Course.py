@@ -16,6 +16,7 @@ class Course:
         self.__students: dict[int, str]
         self.__students = {}
         self.__teacher = ""
+        self.__teacher_telegram_id: str = ""
 
     # TODO class excel not filled
     # TODO Telegram Bot
@@ -106,6 +107,14 @@ class Course:
     def teacher(self, value: str):
         self.__teacher = value
         pass
+
+    @property
+    def teacher_telegram_id(self) -> str:
+        return self.__teacher_telegram_id
+
+    @teacher_telegram_id.setter
+    def teacher_telegram_id(self, value: str):
+        self.__teacher_telegram_id = value
 
     def add_student(self, student_number: int, student_name: str):
         self.__students[student_number] = student_name

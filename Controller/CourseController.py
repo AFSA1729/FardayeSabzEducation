@@ -38,15 +38,12 @@ class CourseController:
             print(f"file title={file['title']}")
             print(DriveController.get_sheet_names(file['id']))
             print("----------------------------")
-            # if sheet_name in DriveController.get_sheet_names(file['id']):
-            #     df, worksheet = DriveController.open_gsheet_as_df(sheet_name)
-            #     if flag:
-            #         print(df['حضور غیاب'] == '')
-            #         flag = False
-            # else:
-            #     warnings.warn(f"gsheet:{file['title']} doesn't contain sheet:{sheet_name}.")
+            if sheet_name in DriveController.get_sheet_names(file['id']):
+                df, worksheet = DriveController.open_gsheet_as_df(file['id'], sheet_name)
+                if sum(df['حضور غیاب'] == '') > 4:
 
-
+            else:
+                warnings.warn(f"gsheet:{file['title']} doesn't contain sheet:{sheet_name}.")
 
     @staticmethod
     def update_students(week_count: int):
@@ -84,6 +81,7 @@ class CourseController:
             if CourseController.find_course(df['جنسیت'][i], df['پایه'][i], df['زنگ'][i]) is not None:
                 course = CourseController.find_course(df['جنسیت'][i], df['پایه'][i], df['زنگ'][i])
                 course.teacher = df['نام'][i]
+                course.teacher_telegram_id = df.loc[i,"telegram ID"]
                 course.topic = df['درس'][i]
             else:
                 raise ValueError("Course with this details not found: sex=%s grade=%s number=%s" % (
