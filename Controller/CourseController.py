@@ -30,17 +30,6 @@ class CourseController:
         CourseController.update_teachers(week_count)
 
     @staticmethod
-    def add_course(course: Course):
-        CourseController.__all_courses.append(course)
-
-    @staticmethod
-    def find_course(sex: str, grade: int, number: int):
-        for course in CourseController.__all_courses:
-            if course.sex == sex and course.grade == grade and course.number == number:
-                return course
-        return None
-
-    @staticmethod
     def update_students(week_count: int):
         for course in CourseController.__all_courses:
             course.clear_students()
@@ -80,6 +69,22 @@ class CourseController:
             else:
                 raise ValueError("Course with this details not found: sex=%s grade=%s number=%s" % (
                     df['جنسیت'][i], df['پایه'][i], df['زنگ'][i]))
+
+    @staticmethod
+    def update_student_docs(week_count: int):
+        for course in CourseController.__all_courses:
+            course.update_student_docs(week_count)
+
+    @staticmethod
+    def add_course(course: Course):
+        CourseController.__all_courses.append(course)
+
+    @staticmethod
+    def find_course(sex: str, grade: int, number: int):
+        for course in CourseController.__all_courses:
+            if course.sex == sex and course.grade == grade and course.number == number:
+                return course
+        return None
 
     @staticmethod
     def create_week_sheets(week_count: int, date: str):

@@ -15,11 +15,17 @@ class Course:
         self.__students = {}
         self.__teacher = ""
 
-
     # TODO class excel not filled
     # TODO Telegram Bot
-    # TODO remove excels
-    # TODO add column
+
+    def update_student_docs(self, week_count: int):
+        sheet_name = "هفته " + week_count.__str__()
+        df, worksheet = DriveController.open_gsheet_as_df(self.__gsheet_key, sheet_name)
+        students_num = len(df) - 4
+
+        for i in range(students_num):
+            s = df.iloc[i].copy()
+            print(s)
 
     def create_week_sheet(self, week_count: int, date: str):
         df, worksheet = DriveController.open_gsheet_as_df(self.__gsheet_key, "هفته " + week_count.__str__())
