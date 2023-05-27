@@ -7,8 +7,8 @@ class StudentController:
 
     @staticmethod
     def update_student_doc_folder(student_name: str, student_id: str, s: pd.Series):
-
         pass
+
     @staticmethod
     def create_student_doc_folder(student_name: str, student_id: str, s: pd.Series):
         title = student_id + '-' + student_name
@@ -25,3 +25,7 @@ class StudentController:
         while len(string) < 3:
             string = "0" + string
         return string
+
+    @staticmethod
+    def get_student_documents_folder_id():
+        return StudentController.__student_documents_folder_id

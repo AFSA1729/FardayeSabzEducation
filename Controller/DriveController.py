@@ -7,6 +7,8 @@ import pandas as pd
 import pygsheets
 from pygsheets import Spreadsheet
 
+from Controller.StudentController import StudentController
+
 
 class DriveController:
     __client_secret_path = ".\Resources\client_secret.json"
@@ -41,11 +43,20 @@ class DriveController:
 
     # Some basic helper functions
     @staticmethod
-    def get_folder_id(root_folder_id, root_folder_title: str) -> str:
+    def get_folder_id(root_folder_id, root_folder_title: str) -> str | None:
         file_list = DriveController.get_children(root_folder_id)
         for file in file_list:
             if file['title'] == root_folder_title:
                 return file['id']
+        return None
+
+    @staticmethod
+    def get_student_folder_id(student_id: str) -> str | None:
+        folder_list = DriveController.get_children(StudentController.get_student_documents_folder_id())
+        for folder in folder_list:
+            if folder['title'].split("-")[0] == student_id:
+                return folder['id']
+        return None
 
     @staticmethod
     def create_folder(title: str, parent_id: str) -> pydrive.files.GoogleDriveFile:
