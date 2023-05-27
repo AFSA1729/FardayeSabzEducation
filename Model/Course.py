@@ -39,13 +39,7 @@ class Course:
             s['مبحث'] = mabhas
             s['عنوان کلاس'] = self.__topic
             s = s[new_index]
-            if i == 0:
-                df1 = pd.DataFrame(columns=list(s.index))
-                df1.loc[1] = s
-                print("==========")
-                print(df1)
-                df1.to_csv("dard.csv")
-                StudentController.create_student_doc_folder(student_name, student_id, s)
+            StudentController.create_student_doc_folder(student_name, student_id, s)
 
     def create_week_sheet(self, week_count: int, date: str):
         df, worksheet = DriveController.open_gsheet_as_df(self.__gsheet_key, "هفته " + week_count.__str__())
