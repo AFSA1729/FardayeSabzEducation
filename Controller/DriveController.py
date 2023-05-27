@@ -11,6 +11,7 @@ from Controller.StudentController import StudentController
 
 
 class DriveController:
+    __student_documents_folder_id = "10iONxv6qOQCRYZoRGw7Cb6785jcYblVS"
     __client_secret_path = ".\Resources\client_secret.json"
     __settings_path = ".\Resources\settings.yaml"
     gauth = GoogleAuth(__settings_path)
@@ -52,7 +53,7 @@ class DriveController:
 
     @staticmethod
     def get_student_folder_id(student_id: str) -> str | None:
-        folder_list = DriveController.get_children(StudentController.get_student_documents_folder_id())
+        folder_list = DriveController.get_children(DriveController.__student_documents_folder_id)
         for folder in folder_list:
             if folder['title'].split("-")[0] == student_id:
                 return folder['id']
