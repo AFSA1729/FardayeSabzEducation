@@ -30,6 +30,18 @@ class CourseController:
         CourseController.update_teachers(week_count)
 
     @staticmethod
+    def get_unfilled_teachers_list(week_count: int):
+        file_list = DriveController.get_children(CourseController.__classes_folder_id)
+        flag = True
+        for file in file_list:
+            df, worksheet = DriveController.open_gsheet_as_df(file['id'], "هفته " + week_count.__str__())
+            if flag:
+                print(df['حضور غیاب'])
+                flag = False
+
+        pass
+
+    @staticmethod
     def update_students(week_count: int):
         for course in CourseController.__all_courses:
             course.clear_students()
