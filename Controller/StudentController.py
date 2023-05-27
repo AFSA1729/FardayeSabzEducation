@@ -7,9 +7,18 @@ class StudentController:
 
     @staticmethod
     def update_student_doc_folder(student_name: str, student_id: str, s: pd.Series):
-        if DriveController.get_student_folder_id(student_id):
-
-        pass
+        folder_id: str | None = DriveController.get_student_folder_id(student_id)
+        if folder_id:
+            gsheet_key: str | None = DriveController.get_student_gsheet_id(folder_id, student_id)
+            if gsheet_key:
+                df, worksheet = DriveController.open_gsheet_as_df(gsheet_key)
+                df.loc[len(df.index)] = s
+                worksheet.set_dataframe(df, (1, 1))
+            else:
+                raise ValueError(
+                    f"Student {student_name} with student_id={student_id} have folder but doesn't have gsheet")
+        else:
+            StudentController.create_student_doc_folder(student_name, student_id, s)
 
     @staticmethod
     def create_student_doc_folder(student_name: str, student_id: str, s: pd.Series):
