@@ -71,9 +71,9 @@ class CourseController:
                     df['جنسیت'][i], df['پایه'][i], df['زنگ'][i]))
 
     @staticmethod
-    def update_student_docs(week_count: int):
+    def update_students_docs(week_count: int):
         for course in CourseController.__all_courses:
-            course.update_student_docs(week_count)
+            course.update_course_students_docs(week_count)
 
     @staticmethod
     def add_course(course: Course):

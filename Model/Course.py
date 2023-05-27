@@ -18,7 +18,7 @@ class Course:
     # TODO class excel not filled
     # TODO Telegram Bot
 
-    def update_student_docs(self, week_count: int):
+    def update_course_students_docs(self, week_count: int):
         sheet_name = "هفته " + week_count.__str__()
         df, worksheet = DriveController.open_gsheet_as_df(self.__gsheet_key, sheet_name)
         students_num = len(df) - 4
