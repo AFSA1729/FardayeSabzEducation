@@ -1,3 +1,5 @@
+import warnings
+
 import pygsheets
 
 from Controller.DriveController import DriveController
@@ -21,8 +23,11 @@ class Course:
     # TODO class excel not filled
     # TODO Telegram Bot
 
-    def update_course_students_docs(self, week_count: int):
+    def update_students_docs(self, week_count: int):
         sheet_name = "هفته " + week_count.__str__()
+        if sheet_name not in DriveController.get_sheet_names(self.__gsheet_key):
+            warnings.warn(f"----- course:{self.__number}-{self.__sex}-{self.__grade}---doesn't have sheet:{sheet_name}.----")
+            return
         df, worksheet = DriveController.open_gsheet_as_df(self.__gsheet_key, sheet_name)
         students_num = len(df) - 4
 
@@ -40,7 +45,7 @@ class Course:
             s['مبحث'] = mabhas
             s['عنوان کلاس'] = self.__topic
             s = s[new_index]
-            StudentController.create_student_doc_folder(student_name, student_id, s)
+            StudentController.update_student_doc_folder(student_name, student_id, s)
 
     def create_week_sheet(self, week_count: int, date: str):
         df, worksheet = DriveController.open_gsheet_as_df(self.__gsheet_key, "هفته " + week_count.__str__())

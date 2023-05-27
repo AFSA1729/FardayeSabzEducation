@@ -53,6 +53,7 @@ class DriveController:
     def get_student_folder_id(student_id: str) -> str | None:
         folder_list = DriveController.get_children(DriveController.__student_documents_folder_id)
         for folder in folder_list:
+            print(folder['title'])
             if folder['title'].split("-")[0] == student_id or folder['title'].split("-")[1] == student_id:
                 return folder['id']
         return None
