@@ -87,5 +87,10 @@ class CourseController:
             course.create_week_sheet(week_count, date)
 
     @staticmethod
+    def add_std_ids(week_count: int, date: str):
+        for course in CourseController.__all_courses:
+            course.add_std_id(14, date)
+
+    @staticmethod
     def get_all_courses():
         return CourseController.__all_courses

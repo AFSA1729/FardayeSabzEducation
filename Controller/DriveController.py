@@ -1,3 +1,5 @@
+from typing import Tuple
+
 import pydrive.files
 from pydrive.auth import GoogleAuth
 from pydrive.drive import GoogleDrive
@@ -15,7 +17,7 @@ class DriveController:
                                     client_secret=__client_secret_path)
 
     @staticmethod
-    def open_gsheet_as_df(key: str, sheet: str) -> (pd.DataFrame, pygsheets.Worksheet):
+    def open_gsheet_as_df(key: str, sheet: str) -> Tuple[pd.DataFrame, pygsheets.Worksheet]:
         """
         opens a Google sheet as pd.DataFrame
         :param key: key of gsheet
@@ -43,8 +45,9 @@ class DriveController:
                 return file['id']
 
     @staticmethod
-    def get_sheet_names(gsheet: Spreadsheet):
-        return [s.title for s in gsheet.worksheets()]
+    def get_sheet_names(key: str):
+        spreadsheet = DriveController.get_gsheets().open_by_key(key)
+        return [s.title for s in spreadsheet.worksheets()]
 
     @staticmethod
     def get_drive():

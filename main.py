@@ -43,10 +43,13 @@ from pygsheets import Spreadsheet
 # --------------------------------------------------------------------------------------------------------
 
 
-CourseController.init_courses(15)
+CourseController.init_courses(14)
 
-for course in CourseController.get_all_courses():
-    print(course.students())
-    print(f"--> sex:{course.sex} grade:{course.grade} number:{course.number}")
+# for course in CourseController.get_all_courses():
+#     print(course.students())
+#     print(f"--> sex:{course.sex} grade:{course.grade} number:{course.number}")
+
+CourseController.add_std_ids(14, "5-18-2023")
+# CourseController.find_course("پسر", 7, 1).add_std_id(14, "5-18-2023")
 
 print("adgal;sdkgjl;ksjk")

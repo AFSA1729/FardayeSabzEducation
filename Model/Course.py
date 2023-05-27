@@ -1,3 +1,5 @@
+import pygsheets
+
 from Controller.DriveController import DriveController
 import pandas as pd
 
@@ -9,14 +11,11 @@ class Course:
         self.__grade = grade
         self.__number = number
         self.__topic: str = topic
-        # self.students: list[str]
         self.__students: dict[int, str]
         self.__students = {}
         self.__teacher = ""
 
     # TODO add setter getters
-    # مدرسین excel not filled
-    # TODO test مدرسین excel not filled
     # TODO class excel not filled
     # TODO Telegram Bot
     # TODO remove excels
@@ -25,16 +24,38 @@ class Course:
     def create_week_sheet(self, week_count: int, date: str):
         df, worksheet = DriveController.open_gsheet_as_df(self.__gsheet_key, "هفته " + week_count.__str__())
         df['نام'] = list(self.__students.values()) + ['مدرس', 'تاریخ', 'مبحث', 'عنوان کلاس']
-        df['شماره دانش‌آموزی'] = list(self.__students.keys())
+        df['شماره دانش‌آموزی'] = list(self.__students.keys()) + [""] * (len(df.index) - len(self.__students.keys()))
         nan = [''] * df['نام'].shape[0]
         df['حضور غیاب'] = nan
         df['مشارکت در کلاس'] = nan
         df['انجام تکالیف'] = nan
         df['ارزیابی مدرس'] = nan
         df['توضیحات'] = nan
-        df['حضور غیاب'][df['نام'] == 'مدرس'] = self.__teacher
-        df['حضور غیاب'][df['نام'] == 'تاریخ'] = date
-        df['حضور غیاب'][df['نام'] == 'عنوان کلاس'] = self.__topic
+        df['شماره دانش‌آموزی'][df['نام'] == 'مدرس'] = self.__teacher
+        df['شماره دانش‌آموزی'][df['نام'] == 'تاریخ'] = date
+        df['شماره دانش‌آموزی'][df['نام'] == 'عنوان کلاس'] = self.__topic
+        worksheet.set_dataframe(df, (1, 1))
+
+    def add_std_id(self, week_count: int, date: str):
+        if ("هفته " + week_count.__str__()) not in DriveController.get_sheet_names(self.__gsheet_key):
+            return
+        df, worksheet = DriveController.open_gsheet_as_df(self.__gsheet_key, "هفته " + week_count.__str__())
+
+        df['شماره دانش‌آموزی'] = list(self.__students.keys()) + [""] * (len(df.index) - len(self.__students.keys()))
+        df['شماره دانش‌آموزی'][df['نام'] == 'مدرس'] = self.__teacher
+        df['شماره دانش‌آموزی'][df['نام'] == 'تاریخ'] = date
+        # df['شماره دانش‌آموزی'][df['نام'] == 'عنوان کلاس'] = self.__topic
+
+        df['حضور غیاب'][df['نام'] == 'مدرس'] = ""
+        df['حضور غیاب'][df['نام'] == 'تاریخ'] = ""
+        df['حضور غیاب'][df['نام'] == 'عنوان کلاس'] = ""
+
+        col = df.columns.tolist()
+        col = ([col[0]] + col[-1:]) + col[1:-1]
+        df = df[col]
+        string = ["عنوان کلاس", self.__topic] + [""] * (len(col) - 2)
+        df.loc[len(df)] = string
+
         worksheet.set_dataframe(df, (1, 1))
 
     @property
@@ -50,12 +71,21 @@ class Course:
         return self.__grade
 
     @property
-    def topic(self) -> str:
+    def topic(self):
         return self.__topic
 
     @topic.setter
     def topic(self, value: str):
         self.__topic = value
+
+    @property
+    def teacher(self):
+        return self.__teacher
+
+    @teacher.setter
+    def teacher(self, value: str):
+        self.__teacher = value
+        pass
 
     def add_student(self, student_number: int, student_name: str):
         self.__students[student_number] = student_name
