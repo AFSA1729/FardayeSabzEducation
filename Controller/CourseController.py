@@ -32,14 +32,21 @@ class CourseController:
     @staticmethod
     def get_unfilled_teachers_list(week_count: int):
         file_list = DriveController.get_children(CourseController.__classes_folder_id)
+        sheet_name = "هفته " + week_count.__str__()
         flag = True
         for file in file_list:
-            df, worksheet = DriveController.open_gsheet_as_df(file['id'], "هفته " + week_count.__str__())
-            if flag:
-                print(df['حضور غیاب'])
-                flag = False
+            print(f"file title={file['title']}")
+            print(DriveController.get_sheet_names(file['id']))
+            print("----------------------------")
+            # if sheet_name in DriveController.get_sheet_names(file['id']):
+            #     df, worksheet = DriveController.open_gsheet_as_df(sheet_name)
+            #     if flag:
+            #         print(df['حضور غیاب'] == '')
+            #         flag = False
+            # else:
+            #     warnings.warn(f"gsheet:{file['title']} doesn't contain sheet:{sheet_name}.")
 
-        pass
+
 
     @staticmethod
     def update_students(week_count: int):
