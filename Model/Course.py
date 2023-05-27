@@ -3,6 +3,8 @@ import pygsheets
 from Controller.DriveController import DriveController
 import pandas as pd
 
+from Controller.StudentController import StudentController
+
 
 class Course:
     def __init__(self, gsheet_id: str, sex: str, grade: int, number: int, topic=None):
@@ -21,23 +23,29 @@ class Course:
     def update_course_students_docs(self, week_count: int):
         sheet_name = "هفته " + week_count.__str__()
         df, worksheet = DriveController.open_gsheet_as_df(self.__gsheet_key, sheet_name)
-
         students_num = len(df) - 4
 
-        date = df['شماره دانش‌آموزی'][df['نام'] == 'تاریخ']
-        mabhas = df['شماره دانش‌آموزی'][df['نام'] == 'مبحث']
+        date = str(df[df['نام'] == 'تاریخ']['شماره دانش‌آموزی'].values[0])
+        mabhas = str(df[df['نام'] == 'مبحث']['شماره دانش‌آموزی'].values[0])
         new_index = df.columns.tolist()
         new_index = ['مدرس', 'تاریخ', 'مبحث', 'عنوان کلاس'] + new_index[2:]
 
         for i in range(students_num):
-            print(df['نام'][i])
-            s: pd.Series = df.iloc[i].copy()
-            s.drop(labels=['شماره دانش‌آموزی', 'نام'])
+            student_id = StudentController.student_id(df.loc[i, "شماره دانش‌آموزی"])
+            student_name = df.loc[i, 'نام']
+            s: pd.Series = df.loc[i]
             s['مدرس'] = self.__teacher
             s['تاریخ'] = date
             s['مبحث'] = mabhas
             s['عنوان کلاس'] = self.__topic
-            s.reindex(index=new_index)
+            s = s[new_index]
+            if i == 0:
+                df1 = pd.DataFrame(columns=list(s.index))
+                df1.loc[1] = s
+                print("==========")
+                print(df1)
+                df1.to_csv("dard.csv")
+                StudentController.create_student_doc_folder(student_name, student_id, s)
 
     def create_week_sheet(self, week_count: int, date: str):
         df, worksheet = DriveController.open_gsheet_as_df(self.__gsheet_key, "هفته " + week_count.__str__())

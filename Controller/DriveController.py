@@ -17,7 +17,7 @@ class DriveController:
                                     client_secret=__client_secret_path)
 
     @staticmethod
-    def open_gsheet_as_df(key: str, sheet: str) -> Tuple[pd.DataFrame, pygsheets.Worksheet]:
+    def open_gsheet_as_df(key: str, sheet: str = None) -> Tuple[pd.DataFrame, pygsheets.Worksheet]:
         """
         opens a Google sheet as pd.DataFrame
         :param key: key of gsheet
@@ -26,7 +26,10 @@ class DriveController:
         """
         spreadsheet = DriveController.get_gsheets().open_by_key(key)
         worksheet: pygsheets.Worksheet
-        worksheet = spreadsheet.worksheet_by_title(sheet)
+        if sheet is None:
+            worksheet = spreadsheet.worksheets()[0]
+        else:
+            worksheet = spreadsheet.worksheet_by_title(sheet)
         df = worksheet.get_as_df(include_tailing_empty=False)
         return df, worksheet
 
