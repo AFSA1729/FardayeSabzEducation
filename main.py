@@ -10,8 +10,7 @@ CourseController.init_courses(week_count)
 #     print(f"--> sex:{course.sex} grade:{course.grade} number:{course.number}")
 
 
-# CourseController.update_students_docs(14)
-CourseController.testd()
+CourseController.update_students_docs(week_count)
 print(CourseController.get_unfilled_teachers_list(week_count))
 
 print("adgal;sdkgjl;ksjk")
