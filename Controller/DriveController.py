@@ -45,14 +45,14 @@ class DriveController:
                 return file['id']
 
     @staticmethod
-    def create_folder(self, name: str, parent_id: str):
+    def create_folder(title: str, parent_id: str):
         file_metadata = {
-            'title': name,
+            'title': title,
             'parents': [{'id': parent_id}],  # parent folder
             'mimeType': 'application/vnd.google-apps.folder'
         }
 
-        folder = self.drive.CreateFile(file_metadata)
+        folder = DriveController.__drive.CreateFile(file_metadata)
         folder.Upload()
 
     @staticmethod

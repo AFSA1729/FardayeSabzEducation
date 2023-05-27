@@ -15,5 +15,15 @@ CourseController.init_courses(14)
 # course.update_course_students_docs(14)
 
 print(StudentController.student_id(42))
-
+# file_metadata = {
+#     'title': "salam",
+#     'parents': [{'id': "10iONxv6qOQCRYZoRGw7Cb6785jcYblVS"}],  # parent folder
+#     'mimeType': 'application/vnd.google-apps.folder'
+# }
+#
+# folder = DriveController.get_drive().CreateFile(file_metadata)
+# folder.Upload()
+# DriveController.create_folder("salam2", "10iONxv6qOQCRYZoRGw7Cb6785jcYblVS")
+StudentController.create_student_doc_folder("Ashkan Majidi", "007")
+# DriveController.create_folder("Ashkan Majidi", "007")
 print("adgal;sdkgjl;ksjk")

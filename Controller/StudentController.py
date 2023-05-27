@@ -1,6 +1,8 @@
+from Controller.DriveController import DriveController
+
+
 class StudentController:
-    def __init__(self):
-        __student_documents_folder_id = "10iONxv6qOQCRYZoRGw7Cb6785jcYblVS"
+    __student_documents_folder_id = "10iONxv6qOQCRYZoRGw7Cb6785jcYblVS"
 
     @staticmethod
     def student_id(student_id: int) -> str:
@@ -9,7 +11,7 @@ class StudentController:
             string = "0" + string
         return string
 
-    def create_student_doc_folder(self, student_name: str, student_id: str):
+    @staticmethod
+    def create_student_doc_folder(student_name: str, student_id: str):
         title = student_name + '-' + student_id
-
-        pass
+        DriveController.create_folder(title, StudentController.__student_documents_folder_id)
