@@ -26,7 +26,8 @@ class Course:
     def update_students_docs(self, week_count: int):
         sheet_name = "هفته " + week_count.__str__()
         if sheet_name not in DriveController.get_sheet_names(self.__gsheet_key):
-            warnings.warn(f"----- course:{self.__number}-{self.__sex}-{self.__grade}---doesn't have sheet:{sheet_name}.----")
+            warnings.warn(
+                f"----- course:{self.__number}-{self.__sex}-{self.__grade}---doesn't have sheet:{sheet_name}.----")
             return
         df, worksheet = DriveController.open_gsheet_as_df(self.__gsheet_key, sheet_name)
         students_num = len(df) - 4
@@ -48,7 +49,9 @@ class Course:
             StudentController.update_student_doc_folder(student_name, student_id, s)
 
     def create_week_sheet(self, week_count: int, date: str):
-        df, worksheet = DriveController.open_gsheet_as_df(self.__gsheet_key, "هفته " + week_count.__str__())
+        sheet_name = "هفته " + week_count.__str__()
+        DriveController.add_sheet(self.__gsheet_key, sheet_name)
+        df, worksheet = DriveController.open_gsheet_as_df(self.__gsheet_key, sheet_name)
         df['نام'] = list(self.__students.values()) + ['مدرس', 'تاریخ', 'مبحث', 'عنوان کلاس']
         df['شماره دانش‌آموزی'] = list(self.__students.keys()) + [""] * (len(df.index) - len(self.__students.keys()))
         nan = [''] * df['نام'].shape[0]
@@ -57,9 +60,9 @@ class Course:
         df['انجام تکالیف'] = nan
         df['ارزیابی مدرس'] = nan
         df['توضیحات'] = nan
-        df['شماره دانش‌آموزی'][df['نام'] == 'مدرس'] = self.__teacher
-        df['شماره دانش‌آموزی'][df['نام'] == 'تاریخ'] = date
-        df['شماره دانش‌آموزی'][df['نام'] == 'عنوان کلاس'] = self.__topic
+        df[df['نام'] == 'مدرس']['شماره دانش‌آموزی'] = self.__teacher
+        df[df['نام'] == 'تاریخ']['شماره دانش‌آموزی'] = date
+        df[df['نام'] == 'عنوان کلاس']['شماره دانش‌آموزی'] = self.__topic
         worksheet.set_dataframe(df, (1, 1))
 
     def add_std_id(self, week_count: int, date: str):

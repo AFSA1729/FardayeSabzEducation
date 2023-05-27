@@ -18,6 +18,11 @@ class DriveController:
                                     client_secret=__client_secret_path)
 
     @staticmethod
+    def add_sheet(key: str, sheet_name: str):
+        spreadsheet = DriveController.get_gsheets().open_by_key(key)
+        spreadsheet.add_worksheet(sheet_name)
+
+    @staticmethod
     def open_gsheet_as_df(key: str, sheet: str = None) -> Tuple[pd.DataFrame, pygsheets.Worksheet]:
         """
         opens a Google sheet as pd.DataFrame
