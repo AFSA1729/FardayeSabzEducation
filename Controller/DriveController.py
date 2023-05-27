@@ -8,7 +8,6 @@ import pygsheets
 from pygsheets import Spreadsheet
 
 
-
 class DriveController:
     __student_documents_folder_id = "10iONxv6qOQCRYZoRGw7Cb6785jcYblVS"
     __client_secret_path = ".\Resources\client_secret.json"
