@@ -7,7 +7,6 @@ import pandas as pd
 import pygsheets
 from pygsheets import Spreadsheet
 
-from Controller.StudentController import StudentController
 
 
 class DriveController:
